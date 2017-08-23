@@ -19,7 +19,7 @@ class UserManager(models.Manager):
             errors["last_name"] = "Last name should be more than 2 characters and only letters"
         if not EMAIL_REGEX.match(postData["email"]):
             errors["email"] = "Entered an invalid email" 
-        if not PASSWORD_REGEX(postData["email"]):
+        if not PASSWORD_REGEX.match(postData["password"]):
             errors["password"] = "Password should be more than 8 characters, contain 1 Uppercase, 1 Number, 1 Special Character"
         if postData["password"] != postData["confirm"]:
             errors["confirm"] = "Passwords don't match"

@@ -20,16 +20,19 @@ def addBubbles(request):
 def register(request):
     if request.method == "POST":
         errors = User.objects.validator(request.POST)
+        print "test"
         if len(errors):
             for tag, error in errors.iteritems():
                 messages.error(request,error, extra_tags=tag)
             return redirect("/")
         else:
             users = User.objects.filter(email=request.POST['email'])
+            print "test"
             if len(users):
                 messages.error(request,"This email is already in use!")
                 return redirect("/")
             else:
+                print "test"
                 User.objects.create(first_name = request.POST['first_name'],last_name = request.POST['last_name'],email = request.POST['email'],password=bcrypt.hashpw(request.POST['password'].encode(),bcrypt.gensalt()))
                 request.session['user'] =  User.objects.get(email=request.POST["email"]).id
                 return redirect("/addBubbles")

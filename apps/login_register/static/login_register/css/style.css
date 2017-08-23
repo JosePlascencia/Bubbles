@@ -57,11 +57,14 @@ body {
     display: inline-block;
     vertical-align: top;
     background: #C7DDEF;
+    height: 100%;
 }
 .right_panel{
     display: inline-block;
     vertical-align: top;
     background: #C7DDEF;
+    height: 100%;
+    margin-left: 60%;
 }
 .right_panel *{
     text-align: center;
@@ -71,6 +74,7 @@ body {
 .center_panel{
     background: #C7DDEF;
     margin-left: 20%;
+    min-height: 100%;
 }
 
 @media(min-width: 1024px) {
@@ -80,15 +84,11 @@ body {
     }
     .left_panel{
         width: 20%;
-        height: 100%;
     }
     .right_panel{
         width: 20%;
-        height: 100%;
-        margin-left: 60%;
     }
     .center_panel{
         width: 60%;
-        height: 400%;
     }
 }

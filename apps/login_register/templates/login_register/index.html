@@ -43,9 +43,7 @@
                 <div class="right_panel">
                     {%if messages%}
                         {%for error in messages%}
-                            {%if not error.tags%}
-                                <p>{{error}}</p>
-                            {%endif%}
+                            <p>{{error}}</p>
                         {%endfor%}
                     {%endif%}
                     <h1>Registration</h1>
