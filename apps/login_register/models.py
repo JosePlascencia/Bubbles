@@ -45,3 +45,5 @@ class Account(models.Model):
     secret = models.CharField(max_length=255)
     user = models.ForeignKey(User, related_name='accounts', on_delete=models.CASCADE)
     a_type = models.ForeignKey(Type, related_name = 'accounts', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
