@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Setup-Bubbles</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/style.css' %}">
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="header">
+                <img src="{% static 'login_register/images/bubbles.png' %}" alt="">
+                <p class="title">Bubbles</p>
+            </div>
+            <div class="panels">
+                <svg class="left_panel" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+                <script type="text/javascript" src="{% static 'login_register/js/bubbles.js' %}"></script>
+                <div class="right_panel">
+                </div>
+            </div>
+        </div>
+        <div class="center_panel">Success</div>
+    </body>
+</html>

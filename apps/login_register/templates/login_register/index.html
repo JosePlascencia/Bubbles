@@ -2,35 +2,65 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Login Register</title>
+        <title>Bubbles Login/Register</title>
         {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static "login_reg/css/index_style.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/style.css' %}">
     </head>
     <body>
         <div class="wrapper">
-            {%if messages%}
-                {%for error in messages%}
-                    <p>{{error}}</p>
-                {%endfor%}
-            {%endif%}
-            <h1>Registration</h1>
-            <form action="/register" method="post">
-                {%csrf_token%}
-                first_name: <input type="text" name="first_name">
-                last_name: <input type="text" name="last_name">
-                Email: <input type="text" name="email">
-                Password: <input type="password" name="password">
-                Confirm pw: <input type="password" name="confirm">
-                Date Hired: <input type="date" name="hired">
-                <input type="submit" value="Register">
-            </form>
-            <h1>Login</h1>
-            <form action="/login" method="post">
-                {%csrf_token%}
-                Email: <input type="text" name="email">
-                Password: <input type="password" name="password">
-                <input type="submit" value="Login">
-            </form>
+            <div class="header">
+                <img src="{% static 'login_register/images/bubbles.png' %}" alt="">
+                <p class="title">Bubbles</p>
+                <form action="/login" method="post">
+                    {%csrf_token%}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><p>Username/Email:</p></td>
+                                <td><input type="text" name="email"></td>
+                            </tr>
+                            <tr>
+                                <td><p>Password:</p></td>
+                                <td><input type="password" name="password"></td>
+                                <td><input type="submit" value="Login"></td>
+                            </tr>
+                            <tr>
+                                {%if messages%}
+                                    {%for error in messages%}
+                                        {%if not error.tags%}
+                                            <p>{{error}}</p>
+                                        {%endif%}
+                                    {%endfor%}
+                                {%endif%}
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="panels">
+                <svg class="left_panel" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+                <script type="text/javascript" src="{% static 'login_register/js/bubbles.js' %}"></script>
+                <div class="right_panel">
+                    {%if messages%}
+                        {%for error in messages%}
+                            {%if not error.tags%}
+                                <p>{{error}}</p>
+                            {%endif%}
+                        {%endfor%}
+                    {%endif%}
+                    <h1>Registration</h1>
+                    <form action="/register" method="post">
+                        {%csrf_token%}
+                        First Name: <input type="text" name="first_name">
+                        Last Name: <input type="text" name="last_name">
+                        Email: <input type="text" name="email">
+                        Password: <input type="password" name="password">
+                        Confirm Password: <input type="password" name="confirm">
+                        <input type="submit" value="Register">
+                    </form>
+                </div>
+            </div>
         </div>
+        <div class="center_panel"></div>
     </body>
 </html>

@@ -1,0 +1,94 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    width: 100%;
+    height: 100%;
+    color: #008CFF;
+}
+body {
+    width: 100%;
+    height: 100%;
+}
+.wrapper{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+.panels{
+    width: 100%;
+    height: 90%;
+    display: flex;
+}
+@font-face {
+    font-family: "Bubble";
+    src: url('../fonts/GirlsWriteW5.ttc') format("truetype");
+}
+.header {
+    margin: 0;
+    width: 100%;
+    height: 10%;
+    padding: 5px;
+    background-color: #B9D8F1;
+}
+.header img{
+    width: 70px;
+    margin-right: 5px;
+}
+.title{
+    font-family: Bubble;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 70px;
+    width: 25%;
+}
+.header form{
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+    width: 32%;
+    margin-left: 36%;
+}
+.header table td{
+    text-align: right;
+}
+.left_panel{
+    display: inline-block;
+    vertical-align: top;
+    background: #C7DDEF;
+}
+.right_panel{
+    display: inline-block;
+    vertical-align: top;
+    background: #C7DDEF;
+}
+.right_panel *{
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+.center_panel{
+    background: #C7DDEF;
+    margin-left: 20%;
+}
+
+@media(min-width: 1024px) {
+    .header form{
+        width: 32%;
+        margin-left: 36%;
+    }
+    .left_panel{
+        width: 20%;
+        height: 100%;
+    }
+    .right_panel{
+        width: 20%;
+        height: 100%;
+        margin-left: 60%;
+    }
+    .center_panel{
+        width: 60%;
+        height: 400%;
+    }
+}
