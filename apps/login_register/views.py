@@ -6,6 +6,8 @@ from django.db.models import Q
 import bcrypt
 from .models import *
 import tweepy
+from datetime import datetime
+import time
 
 def index(request):
     if 'user' not in request.session:
@@ -93,42 +95,37 @@ def verification_twitter(request):
         acc.key = auth.access_token
         acc.secret= auth.access_token_secret
         acc.save()
-
+    
     return redirect('/addBubbles')
 
 def getTweet(request):
-    # auth = tweepy.OAuthHandler('mwGD4LnSsAYe3fHJGgUuHu5Z9', 'Ga3pr3CUZhJMp0lrqrtWQwckINE7R1Jv8NOF0HBbERAdOaBA3X')
-    a_type = Type.object.get(name='twitter').id
-    user_key = Account.objects.get(user=request.session['user'], a_type=a_type).key
-    user_secret = Account.objects.get(user=request.session['user'], a_type=a_type).secret
     
-    auth.set_access_token(user_key, user_secret)
+    consumer = Type.objects.get(name='twitter')
+    auth = tweepy.OAuthHandler(consumer.key, consumer.secret)
 
-    api = tweepy.API(auth)
-
-    # api.update_status('tweepy + oauth! I am awesome')
-
-    public_tweets = api.home_timeline()
-    for tweet in public_tweets:
-        print tweet.text
-    
-
+    user = User.objects.get(id=request.session['user'])
+    a_type = Type.objects.get(name='twitter')
     acc = Account.objects.get(user=user, a_type=a_type)
     auth.set_access_token(acc.key, acc.secret)
 
     api = tweepy.API(auth)
 
-    # api.update_status('tweepy + oauth! I am awesome')
-
     public_tweets = api.home_timeline()
+    tweets=[]
     for tweet in public_tweets:
-        print tweet.text
-    # auth.set_access_token(auth.access_token, auth.access_token_secret)
+        json = tweet._json
 
-    # api = tweepy.API(auth)
+        img = ''
+        if 'media' in json['entities']:
+            if 'media_url_https' in json['entities']['media'][0]:
+                img = json['entities']['media'][0]['media_url_https']
+        
+        created_at = json['created_at']
+        arr = created_at.split(' ')
+        created_at = " ".join(arr[0:4])
+        created_at = " ".join([created_at,arr[5]])
+        date_formatted = datetime.strptime(created_at, '%a %b %d %H:%M:%S %Y')
+        sec = time.mktime(date_formatted.timetuple())
+        tweets.append(['twitter', {'name' : json['user']['name'], 'desc': json['text'], 'screename': json['user']['screen_name'], 'img': img, 'date': json['created_at']}, sec])
 
-    # # api.update_status('tweepy + oauth! I am awesome')
-
-    # public_tweets = api.home_timeline()
-    # for tweet in public_tweets:
-    #     print tweet.text
+    # api.update_status('tweepy + oauth! I am awesome')
