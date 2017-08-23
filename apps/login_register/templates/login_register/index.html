@@ -40,7 +40,8 @@
             <div class="panels">
                 <svg class="left_panel" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
                 <script type="text/javascript" src="{% static 'login_register/js/bubbles.js' %}"></script>
-                <div class="right_panel">
+                    <div class="center_panel"></div>
+                    <div class="right_panel">
                     {%if messages%}
                         {%for error in messages%}
                             <p>{{error}}</p>
@@ -59,6 +60,5 @@
                 </div>
             </div>
         </div>
-        <div class="center_panel"></div>
     </body>
 </html>
