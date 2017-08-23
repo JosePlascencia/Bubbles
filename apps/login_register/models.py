@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 import re
+from datetime import datetime
 
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -45,5 +46,5 @@ class Account(models.Model):
     secret = models.CharField(max_length=255)
     user = models.ForeignKey(User, related_name='accounts', on_delete=models.CASCADE)
     a_type = models.ForeignKey(Type, related_name = 'accounts', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add = True)
+    created_at = models.DateTimeField(default=datetime.now)
     updated_at = models.DateTimeField(auto_now = True)
