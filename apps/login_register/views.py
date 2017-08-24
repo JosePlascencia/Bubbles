@@ -8,6 +8,9 @@ from .models import *
 import tweepy
 from datetime import datetime
 import time
+import urllib
+import urllib2
+import requests
 
 def index(request):
     if 'user' not in request.session:
@@ -129,3 +132,66 @@ def getTweet(request):
         tweets.append(['twitter', {'name' : json['user']['name'], 'desc': json['text'], 'screename': json['user']['screen_name'], 'img': img, 'date': json['created_at']}, sec])
 
     # api.update_status('tweepy + oauth! I am awesome')
+
+
+def link_instagram(request):
+    key = Type.objects.get(name='instagram').key
+    secret = Type.objects.get(name='instagram').secret
+    redirect_url = 'https://api.instagram.com/oauth/authorize/?client_id=' + key + '&redirect_uri=http://localhost:8000/verification/instagram&response_type=code&scope=public_content+follower_list+comments+relationships+likes'
+    return redirect(redirect_url)
+
+def verification_instagram(request):
+    code = request.GET.get('code')
+    key = Type.objects.get(name='instagram').key
+    secret = Type.objects.get(name='instagram').secret
+
+    post_data = {'client_id': key, 'client_secret': secret, 'grant_type': 'authorization_code', 'redirect_uri': 'http://localhost:8000/verification/instagram', 'code': code}
+
+    response= requests.post('https://api.instagram.com/oauth/access_token', data=post_data)
+    content = response.json()
+    access_token = content['access_token']
+
+    user = User.objects.get(id=request.session['user'])
+    a_type = Type.objects.get(name='instagram')
+    if not len(Account.objects.filter(user=user, a_type=a_type)):
+        Account.objects.create(key=access_token,user=user,a_type=a_type)
+    else:
+        acc = Account.objects.get(user=user, a_type=a_type)
+        acc.key = access_token
+        acc.save()
+    
+    return redirect('/addBubbles')
+
+def getInstagram(request):
+    user = User.objects.get(id=request.session['user'])
+    a_type = Type.objects.get(name='instagram')
+    access_token = Account.objects.get(user=user,a_type=a_type).key
+
+    user_follows = requests.get('https://api.instagram.com/v1/users/self/follows?access_token=' + access_token)
+    content = user_follows.json()
+
+    # Gets the list of user IDs who User follows
+    user_follows_id_list = []
+    for id in content['data']:
+        user_follows_id_list.append(id['id'])
+
+    # Gets all the post of all the User friends
+    user_friend_posts = []
+    for user in user_follows_id_list:
+        temp = (requests.get('https://api.instagram.com/v1/users/' + user + '/media/recent/?access_token=' + access_token))
+        user_friend_posts.append(temp.json())
+
+    # Filters through all the data to take only post info
+    cleaned_data = []
+    for useful_data in user_friend_posts:
+        cleaned_data.append(useful_data['data'])
+
+    # Filters further to get specific data about the instagrams
+    instagrams=[]
+    for per_user in cleaned_data:
+        per_user_instagram=[]
+        for per_post in per_user:
+            per_user_instagram.append(['instagram', {'name' : per_post['user']['full_name'], 'desc': '', 'screename': per_post['user']['username'], 'img': per_post['images']['standard_resolution']['url'], 'date': per_post['created_time']}, per_post['created_time']])
+        instagrams.append(per_user_instagram)
+
+
