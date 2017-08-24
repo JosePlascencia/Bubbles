@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'^wall$', views.wall),
     url(r'^logout$', views.logout),
     url(r'^link/twitter$', views.link_twitter),
+    url(r'^link/instagram$', views.link_instagram),
     url(r'^verification/twitter$', views.verification_twitter),
+    url(r'^verification/instagram$', views.verification_instagram),
 ]

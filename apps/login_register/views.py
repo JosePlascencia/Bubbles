@@ -6,6 +6,11 @@ from django.db.models import Q
 import bcrypt
 from .models import *
 import tweepy
+from datetime import datetime
+import time
+import urllib
+import urllib2
+import requests
 
 def index(request):
     if 'user' not in request.session:
@@ -97,42 +102,100 @@ def verification_twitter(request):
         acc.key = auth.access_token
         acc.secret= auth.access_token_secret
         acc.save()
-
+    
     return redirect('/addBubbles')
 
 def getTweet(request):
-    # auth = tweepy.OAuthHandler('mwGD4LnSsAYe3fHJGgUuHu5Z9', 'Ga3pr3CUZhJMp0lrqrtWQwckINE7R1Jv8NOF0HBbERAdOaBA3X')
-    a_type = Type.object.get(name='twitter').id
-    user_key = Account.objects.get(user=request.session['user'], a_type=a_type).key
-    user_secret = Account.objects.get(user=request.session['user'], a_type=a_type).secret
     
-    auth.set_access_token(user_key, user_secret)
+    consumer = Type.objects.get(name='twitter')
+    auth = tweepy.OAuthHandler(consumer.key, consumer.secret)
 
-    api = tweepy.API(auth)
-
-    # api.update_status('tweepy + oauth! I am awesome')
-
-    public_tweets = api.home_timeline()
-    for tweet in public_tweets:
-        print tweet.text
-    
-
+    user = User.objects.get(id=request.session['user'])
+    a_type = Type.objects.get(name='twitter')
     acc = Account.objects.get(user=user, a_type=a_type)
     auth.set_access_token(acc.key, acc.secret)
 
     api = tweepy.API(auth)
 
+    public_tweets = api.home_timeline()
+    tweets=[]
+    for tweet in public_tweets:
+        json = tweet._json
+
+        img = ''
+        if 'media' in json['entities']:
+            if 'media_url_https' in json['entities']['media'][0]:
+                img = json['entities']['media'][0]['media_url_https']
+        
+        created_at = json['created_at']
+        arr = created_at.split(' ')
+        created_at = " ".join(arr[0:4])
+        created_at = " ".join([created_at,arr[5]])
+        date_formatted = datetime.strptime(created_at, '%a %b %d %H:%M:%S %Y')
+        sec = time.mktime(date_formatted.timetuple())
+        tweets.append(['twitter', {'name' : json['user']['name'], 'desc': json['text'], 'screename': json['user']['screen_name'], 'img': img, 'date': json['created_at']}, sec])
+
     # api.update_status('tweepy + oauth! I am awesome')
 
-    public_tweets = api.home_timeline()
-    for tweet in public_tweets:
-        print tweet.text
-    # auth.set_access_token(auth.access_token, auth.access_token_secret)
 
-    # api = tweepy.API(auth)
+def link_instagram(request):
+    key = Type.objects.get(name='instagram').key
+    secret = Type.objects.get(name='instagram').secret
+    redirect_url = 'https://api.instagram.com/oauth/authorize/?client_id=' + key + '&redirect_uri=http://localhost:8000/verification/instagram&response_type=code&scope=public_content+follower_list+comments+relationships+likes'
+    return redirect(redirect_url)
 
-    # # api.update_status('tweepy + oauth! I am awesome')
+def verification_instagram(request):
+    code = request.GET.get('code')
+    key = Type.objects.get(name='instagram').key
+    secret = Type.objects.get(name='instagram').secret
 
-    # public_tweets = api.home_timeline()
-    # for tweet in public_tweets:
-    #     print tweet.text
+    post_data = {'client_id': key, 'client_secret': secret, 'grant_type': 'authorization_code', 'redirect_uri': 'http://localhost:8000/verification/instagram', 'code': code}
+
+    response= requests.post('https://api.instagram.com/oauth/access_token', data=post_data)
+    content = response.json()
+    access_token = content['access_token']
+
+    user = User.objects.get(id=request.session['user'])
+    a_type = Type.objects.get(name='instagram')
+    if not len(Account.objects.filter(user=user, a_type=a_type)):
+        Account.objects.create(key=access_token,user=user,a_type=a_type)
+    else:
+        acc = Account.objects.get(user=user, a_type=a_type)
+        acc.key = access_token
+        acc.save()
+    
+    return redirect('/addBubbles')
+
+def getInstagram(request):
+    user = User.objects.get(id=request.session['user'])
+    a_type = Type.objects.get(name='instagram')
+    access_token = Account.objects.get(user=user,a_type=a_type).key
+
+    user_follows = requests.get('https://api.instagram.com/v1/users/self/follows?access_token=' + access_token)
+    content = user_follows.json()
+
+    # Gets the list of user IDs who User follows
+    user_follows_id_list = []
+    for id in content['data']:
+        user_follows_id_list.append(id['id'])
+
+    # Gets all the post of all the User friends
+    user_friend_posts = []
+    for user in user_follows_id_list:
+        temp = (requests.get('https://api.instagram.com/v1/users/' + user + '/media/recent/?access_token=' + access_token))
+        user_friend_posts.append(temp.json())
+
+    # Filters through all the data to take only post info
+    cleaned_data = []
+    for useful_data in user_friend_posts:
+        cleaned_data.append(useful_data['data'])
+
+    # Filters further to get specific data about the instagrams
+    instagrams=[]
+    for per_user in cleaned_data:
+        per_user_instagram=[]
+        for per_post in per_user:
+            per_user_instagram.append(['instagram', {'name' : per_post['user']['full_name'], 'desc': '', 'screename': per_post['user']['username'], 'img': per_post['images']['standard_resolution']['url'], 'date': per_post['created_time']}, per_post['created_time']])
+        instagrams.append(per_user_instagram)
+
+
