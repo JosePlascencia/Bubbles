@@ -25,20 +25,24 @@ def addBubbles(request):
 
 def register(request):
     if request.method == "POST":
+        print "got a post command"
         errors = User.objects.validator(request.POST)
         if len(errors):
             for tag, error in errors.iteritems():
                 messages.error(request,error, extra_tags=tag)
-            return redirect("/")
+            return redirect("/register")
         else:
             users = User.objects.filter(email=request.POST['email'])
             if len(users):
                 messages.error(request,"This email is already in use!")
-                return redirect("/")
+                return redirect("/register")
             else:
                 User.objects.create(first_name = request.POST['first_name'],last_name = request.POST['last_name'],email = request.POST['email'],password=bcrypt.hashpw(request.POST['password'].encode(),bcrypt.gensalt()))
                 request.session['user'] =  User.objects.get(email=request.POST["email"]).id
                 return redirect("/addBubbles")
+    elif request.method == "GET":
+        print "got a get command"
+        return render(request, "login_register/registration.html")
 
 def login(request):
     if request.method == "POST":
