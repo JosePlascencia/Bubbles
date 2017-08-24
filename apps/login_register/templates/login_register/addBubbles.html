@@ -1,24 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <title>Setup-Bubbles</title>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/style.css' %}">
-    </head>
-    <body>
-        <div class="wrapper">
-            <div class="header">
-                <img src="{% static 'login_register/images/bubbles.png' %}" alt="">
-                <p class="title">Bubbles</p>
-            </div>
-            <div class="panels">
-                <svg class="left_panel" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
-                <script type="text/javascript" src="{% static 'login_register/js/bubbles.js' %}"></script>
-                <div class="center_panel">Success</div>
-                <div class="right_panel">
+    <meta charset="utf-8">
+    <title>Setup-Bubbles</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login_register/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="{% static 'login_register/fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Footer-Basic.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Good-login-dropdown-menu.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Good-login-dropdown-menu1.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Google-Style-Login.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Navigation-with-Search1.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Pretty-Registration-Form.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box.css' %}">
+    <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box1.css' %}">
+</head>
+<body style="background-color:rgba(114,209,221,0.75);">
+    <div>
+        <nav class="navbar navbar-default navigation-clean-search" style="background-color:#72d1dd;">
+            <div class="container">
+                <div class="navbar-header"><a class="navbar-brand navbar-link" href="/wall" style="font-size:50px;color:#004f6d;">Bubbles </a>
+                    <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                </div>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="font-size:23px;">Profile <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li role="presentation"><a href="/addBubbles">Add Bubbles</a></li>
+                                <li role="presentation"><a href="/wall">Wall</a></li>
+                                <li role="presentation"><a href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+    </div>
+    <div style="max-height:545px;">
+        <div class="container">
+            <div class="row" style="height:545px;max-height:545px;">
+                <div class="col-md-4" style="max-height:545px;height:545px;width:200px;"></div>
+                <div class="col-md-4" style="height:545px;width:770px;">
+                    <div style="padding-left:190px;padding-top:32px;padding-right:186px;">
+                        <a href="#"><div class="bubble" style="width:180px;height:180px;padding:35px;background-image:url('../../static/login_register/img/bubble.png');background-repeat:no-repeat;background-size:cover;display:inline-block;"><img src="{% static 'login_register/img/twitter.png' %}" style="height:auto;width:100px;background-repeat:repeat-x;background-size:auto;"></div></a>
+                        <a href="#"><div class="bubble" style="width:180px;height:180px;padding:30px;background-image:url('../../static/login_register/img/bubble.png');background-repeat:no-repeat;background-size:cover;display:inline-block;"><img src="{% static 'login_register/img/instagram.png' %}" style="height:auto;width:100px;background-repeat:repeat-x;background-size:auto;"></div></a>
+                    </div>
+                </div>
+                <div class="col-md-4" style="height:545px;width:200px;"></div>
+            </div>
         </div>
+    </div>
+    <div class="footer-basic" style="background-color:#72d1dd;padding:10px 0px 0px 0px;">
+        <footer>
+            <div class="social">
+                <a href="#">
+                    <i class="icon ion-social-instagram"></i>
+                </a>
+                <a href="#">
+                    <i class="icon ion-social-snapchat"></i>
+                </a>
+                <a href="#">
+                    <i class="icon ion-social-twitter"></i>
+                </a>
+                <a href="#">
+                    <i class="icon ion-social-facebook"></i>
+                </a></div>
+            <ul class="list-inline">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright">Bubbles © 2016</p>
+        </footer>
+    </div>
+    <script src="{% static 'login_register/js/jquery.min.js' %}"></script>
+    <script src="{% static 'login_register/bootstrap/js/bootstrap.min.js' %}"></script>
+
     </body>
 </html>

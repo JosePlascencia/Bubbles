@@ -4,61 +4,63 @@
         <meta charset="utf-8">
         <title>Bubbles Login/Register</title>
         {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/style.css' %}">
-    </head>
-    <body>
-        <div class="wrapper">
-            <div class="header">
-                <img src="{% static 'login_register/images/bubbles.png' %}" alt="">
-                <p class="title">Bubbles</p>
-                <form action="/login" method="post">
-                    {%csrf_token%}
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td><p>Username/Email:</p></td>
-                                <td><input type="text" name="email"></td>
-                            </tr>
-                            <tr>
-                                <td><p>Password:</p></td>
-                                <td><input type="password" name="password"></td>
-                                <td><input type="submit" value="Login"></td>
-                            </tr>
-                            <tr>
-                                {%if messages%}
-                                    {%for error in messages%}
-                                        {%if not error.tags%}
-                                            <p>{{error}}</p>
-                                        {%endif%}
-                                    {%endfor%}
-                                {%endif%}
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-            <div class="panels">
-                <svg class="left_panel" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
-                <script type="text/javascript" src="{% static 'login_register/js/bubbles.js' %}"></script>
-                    <div class="center_panel"></div>
-                    <div class="right_panel">
-                    {%if messages%}
-                        {%for error in messages%}
-                            <p>{{error}}</p>
-                        {%endfor%}
-                    {%endif%}
-                    <h1>Registration</h1>
-                    <form action="/register" method="post">
-                        {%csrf_token%}
-                        First Name: <input type="text" name="first_name">
-                        Last Name: <input type="text" name="last_name">
-                        Email: <input type="text" name="email">
-                        Password: <input type="password" name="password">
-                        Confirm Password: <input type="password" name="confirm">
-                        <input type="submit" value="Register">
-                    </form>
+        <link rel="stylesheet" href="{% static 'login_register/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+        <link rel="stylesheet" href="{% static 'login_register/fonts/ionicons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Footer-Basic.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Good-login-dropdown-menu.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Good-login-dropdown-menu1.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Google-Style-Login.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Navigation-with-Search1.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Pretty-Registration-Form.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box1.css' %}">
+    </head>    
+    <body style="background-color:rgba(114,209,221,0.75);">
+        <div>
+            <nav class="navbar navbar-default navigation-clean-search" style="background-color:#72d1dd;">
+                <div class="container">
+                    <div class="navbar-header"><a class="navbar-brand navbar-link" href="/" style="font-size:50px;color:#004f6d;">Bubbles </a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav"></ul><a class="btn btn-default navbar-btn navbar-right action-button" role="button" href="/register">REGISTER </a></div>
+                </div>
+            </nav>
+        </div>
+        <div style="max-height:545px;">
+            <div class="container">
+                <div class="row" style="height:545px;max-height:545px;">
+                    <div class="col-md-4" style="max-height:545px;height:545px;"></div>
+                    <div class="col-md-4">
+                        <div class="login-card" style="background-color:rgba(0,79,109,0.8);"><img src="{% static 'login_register/img/avatar_2x.png' %}" class="profile-img-card">
+                            <p class="profile-name-card"> </p>
+                            <form class="form-signin" action="/login" method="post"><span class="reauth-email"> </span>
+                                {% csrf_token %}
+                                <input name="email" class="form-control" type="email" required="" placeholder="Email address" autofocus="" id="inputEmail">
+                                <input name="password" class="form-control" type="password" required="" placeholder="Password" id="inputPassword">
+                                <input class="btn btn-primary btn-block btn-lg btn-signin" type="submit" value="Sign in">
+                            </form><a href="#" class="forgot-password">Forgot your password?</a></div>
+                    </div>
+                    <div class="col-md-4" style="height:545px;"></div>
                 </div>
             </div>
         </div>
+        <div class="footer-basic" style="background-color:#72d1dd;padding:10px 0px 0px 0px;">
+            <footer>
+                <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+                <ul class="list-inline">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+                <p class="copyright">Bubbles © 2016</p>
+            </footer>
+        </div>
+        <script src="{% static 'login_register/js/jquery.min.js' %}"></script>
+        <script src="{% static 'login_register/bootstrap/js/bootstrap.min.js' %}"></script>
     </body>
 </html>

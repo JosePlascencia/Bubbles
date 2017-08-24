@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'login_register/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+        <link rel="stylesheet" href="{% static 'login_register/fonts/ionicons.min.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Footer-Basic.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Good-login-dropdown-menu.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Good-login-dropdown-menu1.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Google-Style-Login.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Navigation-with-Search1.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Pretty-Registration-Form.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box.css' %}">
+        <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box1.css' %}">
+    </head>
+    <body style="background-color:rgba(114,209,221,0.75);">
+        <div>
+            <nav class="navbar navbar-default navigation-clean-search" style="background-color:#72d1dd;">
+                <div class="container">
+                    <div class="navbar-header"><a class="navbar-brand navbar-link" href="/" style="font-size:50px;color:#004f6d;">Bubbles </a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav navbar-right"></ul><a class="btn btn-default navbar-btn navbar-right action-button" role="button" href="/">HOME </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div style="max-height:545px;">
+            <div class="container">
+                <div class="row" style="height:545px;max-height:545px;">
+                    <div class="col-md-4" style="max-height:545px;height:545px;width:200px;">
+                            {%if messages%}
+                                {%for error in messages%}
+                                    <p>-{{error}}</p>
+                                {%endfor%}
+                            {%endif%}
+                    </div>
+                    <div class="col-md-4" style="height:530px;width:770px;margin:15px 0px 0px 0px;">
+                        <div class="row register-form" style="height:530px;">
+                            <div class="col-md-8 col-md-offset-2" style="height:530px;">
+                                <form class="form-horizontal custom-form" style="margin:0px;padding:15px 50px 0px 100px;background-color:#004f6d;" action="/register" method="post">
+                                    {% csrf_token %}
+                                    <h1 style="margin:0px 0px 20px 0px;">Register Form</h1>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 label-column">
+                                            <label class="control-label" for="name-input-field">First Name </label>
+                                        </div>
+                                        <div class="col-sm-6 input-column" style="width:180px;">
+                                            <input class="form-control" type="text" style="width:160px;" name="first_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 label-column">
+                                            <label class="control-label" for="name-input-field">Last Name </label>
+                                        </div>
+                                        <div class="col-sm-6 input-column" style="width:180px;">
+                                            <input class="form-control" type="text" style="width:160px;" name="last_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 label-column">
+                                            <label class="control-label" for="email-input-field">Email </label>
+                                        </div>
+                                        <div class="col-sm-6 input-column" style="width:180px;">
+                                            <input class="form-control" type="email" style="width:160px;" name="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 label-column">
+                                            <label class="control-label" for="pawssword-input-field">Password </label>
+                                        </div>
+                                        <div class="col-sm-6 input-column" style="width:180px;">
+                                            <input class="form-control" type="password" style="width:160px;" name="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-4 label-column">
+                                            <label class="control-label" for="repeat-pawssword-input-field">Confirm Password </label>
+                                        </div>
+                                        <div class="col-sm-6 input-column" style="width:180px;">
+                                            <input class="form-control" type="password" style="width:160px;" name="confirm">
+                                        </div>
+                                    </div>
+                                    <input class="btn btn-default submit-button" type="submit" value="Register">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="height:545px;width:200px;color:#00997c;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-basic" style="background-color:#72d1dd;padding:10px 0px 0px 0px;">
+            <footer>
+                <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+                <ul class="list-inline">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+                <p class="copyright">Bubbles © 2016</p>
+            </footer>
+        </div>
+        <script src="{% static 'login_register/js/jquery.min.js' %}"></script>
+        <script src="{% static 'login_register/bootstrap/js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
