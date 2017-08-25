@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box.css' %}">
         <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box1.css' %}">
     </head>
-    <body style="background-color:rgba(114,209,221,0.75);">
+    <body style="background-color:rgba(114,209,221,0.15);">
         <div>
             <nav class="navbar navbar-default navigation-clean-search" style="background-color:#72d1dd;">
                 <div class="container">
@@ -29,7 +29,7 @@
                             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="font-size:23px;">Profile <span class="caret"></span></a>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                     <li role="presentation"><a href="/addBubbles">Add Bubbles</a></li>
-                                    <li role="presentation"><a href="/wall">wall</a></li>
+                                    <li role="presentation"><a href="/wall">Wall</a></li>
                                     <li role="presentation"><a href="/logout">Logout</a></li>
                                 </ul>
                             </li>
@@ -50,7 +50,26 @@
                 <div class="row" style="height:545px;max-height:545px;">
                     <div class="col-md-4" style="max-height:545px;height:545px;width:200px;"></div>
                     <div class="col-md-4" style="height:545px;width:770px;padding:0;">
-                        <div id="comment_feed" style="height:545px;min-height:545px;max-height:545px;"></div>
+                        <div id="comment_feed" style="height:545px;min-height:545px;max-height:545px; border-radius: 20px;">
+                            {% for post in posts reversed %}
+                                {% if post.0 == 'twitter' %}
+                                    <div style="background-color:rgba(0,79,109,0.8); border: 2px solid #72D1DD; border-radius: 20px;color: white;margin-top:10px; padding: 10px;">
+                                        <div class="bubble" style="width:50px;height:50px;padding:12px;background-image:url('../../static/login_register/img/bubble.png');background-repeat:no-repeat;background-size:cover;display:inline-block;"><img src="{% static 'login_register/img/twitter.png' %}" style="height:auto;width:20px;background-repeat:repeat-x;background-size:auto;"></div>
+                                        <p style="display:inline-block;">{{post.1.name}} @{{post.1.screenname}}</p>
+                                        <p>{{ post.1.desc }}</p>
+                                        {% if post.1.img|length %}
+                                            <img src="{{post.1.img}}" alt=":(" style="height:auto;width:50%; display:block; border: 2px solid #00997c; border-radius: 20px">
+                                        {% endif %}
+                                    </div>
+                                {% elif post.0 == 'instagram' %}
+                                    <div style="background-color:rgba(0,79,109,0.8); border: 2px solid #72D1DD; border-radius: 20px;color: white;margin-top:10px; padding: 10px;">
+                                        <div class="bubble" style="width:50px;height:50px;padding:12px;background-image:url('../../static/login_register/img/bubble.png');background-repeat:no-repeat;background-size:cover;display:inline-block;"><img src="{% static 'login_register/img/instagram.png' %}" style="height:auto;width:20px;background-repeat:repeat-x;background-size:auto;"></div>
+                                        <p style="display:inline-block;">{{post.1.name}} @{{post.1.screenname}}</p>
+                                        <img src="{{post.1.img}}" alt=":(" style="height:auto;width:50%; display:block; border: 2px solid #00997c;border-radius: 20px">
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="col-md-4" style="height:545px;width:200px;padding-top:15px;padding-bottom:15px;">
                         <div class="bubble" style="width:125px;height:125px;padding:30px;background-image:url('../../static/login_register/img/bubble.png');background-repeat:no-repeat;background-size:cover;display:inline-block;"><img src="{% static 'login_register/img/twitter.png' %}" style="height:auto;width:60px;background-repeat:repeat-x;background-size:auto;"></div>

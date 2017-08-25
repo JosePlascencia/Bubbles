@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box.css' %}">
         <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box1.css' %}">
     </head>    
-    <body style="background-color:rgba(114,209,221,0.75);">
+    <body style="background-color:rgba(114,209,221,0.15);">
         <div>
             <nav class="navbar navbar-default navigation-clean-search" style="background-color:#72d1dd;">
                 <div class="container">
@@ -32,7 +32,13 @@
         <div style="max-height:545px;">
             <div class="container">
                 <div class="row" style="height:545px;max-height:545px;">
-                    <div class="col-md-4" style="max-height:545px;height:545px;"></div>
+                    <div class="col-md-4" style="max-height:545px;height:545px;">
+                        {%if messages%}
+                            {%for error in messages%}
+                                <p>-{{error}}</p>
+                            {%endfor%}
+                        {%endif%}
+                    </div>
                     <div class="col-md-4">
                         <div class="login-card" style="background-color:rgba(0,79,109,0.8);"><img src="{% static 'login_register/img/avatar_2x.png' %}" class="profile-img-card">
                             <p class="profile-name-card"> </p>
@@ -41,7 +47,8 @@
                                 <input name="email" class="form-control" type="email" required="" placeholder="Email address" autofocus="" id="inputEmail">
                                 <input name="password" class="form-control" type="password" required="" placeholder="Password" id="inputPassword">
                                 <input class="btn btn-primary btn-block btn-lg btn-signin" type="submit" value="Sign in">
-                            </form><a href="#" class="forgot-password">Forgot your password?</a></div>
+                            </form><a href="#" class="forgot-password">Forgot your password?</a>
+                        </div>
                     </div>
                     <div class="col-md-4" style="height:545px;"></div>
                 </div>
