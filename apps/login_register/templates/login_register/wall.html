@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Wall</title>
         {% load static %}
+        <link rel="stylesheet" href="{% static 'login_register/css/style.css' %}">
         <link rel="stylesheet" href="{% static 'login_register/bootstrap/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
         <link rel="stylesheet" href="{% static 'login_register/fonts/ionicons.min.css' %}">
@@ -17,16 +18,16 @@
         <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box.css' %}">
         <link rel="stylesheet" href="{% static 'login_register/css/Vertical-scroll-box1.css' %}">
     </head>
-    <body style="background-color:rgba(114,209,221,0.15);">
+    <body style="background-color:rgba(114,209,221,0.25);">
         <div>
             <nav class="navbar navbar-default navigation-clean-search" style="background-color:#72d1dd;">
                 <div class="container">
-                    <div class="navbar-header"><a class="navbar-brand navbar-link" href="/wall" style="font-size:50px;color:#004f6d;">Bubbles </a>
+                        <div class="navbar-header"><a class="navbar-brand navbar-link" href="/" style="font-size:50px;color:#004f6d;">Bubbles </a>
                         <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
                     </div>
                     <div class="collapse navbar-collapse" id="navcol-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="font-size:23px;">Profile <span class="caret"></span></a>
+                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="font-size:23px;">{{ name }}<span class="caret"></span></a>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                     <li role="presentation"><a href="/addBubbles">Add Bubbles</a></li>
                                     <li role="presentation"><a href="/wall">Wall</a></li>
@@ -72,14 +73,29 @@
                         </div>
                     </div>
                     <div class="col-md-4" style="height:545px;width:200px;padding-top:15px;padding-bottom:15px;">
+                        {% if twitter|length %}
+                            <a href="#">
+                                <img src="{% static 'login_register/img/twitter_bubble_black.png' %}" style="width:100px;height:100px;padding:0px;display:inline-block;">
+                            </a>
+                        {% else %}
+                            <a href="#">
+                                <img src="{% static 'login_register/img/twitter_bubble_gray.png' %}" style="width:100px;height:100px;padding:0px;display:inline-block;">
+                            </a>
+                        {% endif %}
+                        {% if instagram|length %}
+                            <a href="#">
+                                <img src="{% static 'login_register/img/instagram_bubble_black.png' %}" style="width:100px;height:100px;padding:0px;display:inline-block;">
+                            </a>
+                        {% else %}
+                            <a href="#">
+                                <img src="{% static 'login_register/img/instagram_bubble_gray.png' %}" style="width:100px;height:100px;padding:0px;display:inline-block;">
+                            </a>
+                        {% endif %}
                         <a href="#">
-                            <img src="{% static 'login_register/img/twitter_bubble_black.png' %}" style="width:150px;height:150px;padding:0px;display:inline-block;">
+                            <img src="{% static 'login_register/img/tumblr_bubble_gray.png' %}" style="width:100px;height:100px;padding:0px;display:inline-block;">
                         </a>
                         <a href="#">
-                            <img src="{% static 'login_register/img/instagram_bubble_black.png' %}" style="width:150px;height:150px;padding:0px;display:inline-block;">
-                        </a>
-                        <a href="#">
-                            <img src="{% static 'login_register/img/tumblr_bubble_gray.png' %}" style="width:150px;height:150px;padding:0px;display:inline-block;">
+                            <img src="{% static 'login_register/img/dadjokes_bubble_gray.png' %}" style="width:100px;height:100px;padding:0px;display:inline-block;">
                         </a>
                     </div>
                 </div>

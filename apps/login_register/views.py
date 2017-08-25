@@ -116,20 +116,27 @@ def wall(request):
     array = sorted(comments, key=itemgetter(2))
     
     user = User.objects.get(id=request.session['user'])
+    twitter = Type.objects.get(name="twitter")
+    instagram = Type.objects.get(name="instagram")
 
     context = {
         'posts' : array,
-        'name' : user.first_name + " " + user.last_name,
-        'accounts' : user.accounts
+        'name' : user.first_name,
+        'twitter' : Account.objects.filter(user=user,a_type=twitter),
+        'instagram' : Account.objects.filter(user=user,a_type=instagram)
     }
 
     return render(request, "login_register/wall.html", context)
 
 def addBubbles(request):
     user = User.objects.get(id=request.session['user'])
+    twitter = Type.objects.get(name="twitter")
+    instagram = Type.objects.get(name="instagram")
+
     context = {
-        'name' : user.first_name + user.last_name,
-        'accounts' : user.accounts
+        'name' : user.first_name,
+        'twitter' : Account.objects.filter(user=user,a_type=twitter),
+        'instagram' : Account.objects.filter(user=user,a_type=instagram)
     }
     return render(request, "login_register/addBubbles.html", context)
 
