@@ -14,6 +14,16 @@ import requests
 from operator import itemgetter
 import math
 
+
+###########Override Tweepy stream listener####################################
+class MyStreamListener(tweepy.StreamListener):
+    def on_data(self, data):
+        print data
+        return true
+
+    def on_error(self, status_code):
+        print status_code
+
 ###########Retrieve Twitter posts##############################################
 def getTweet(request):
     
@@ -44,6 +54,11 @@ def getTweet(request):
         date_formatted = datetime.strptime(created_at, '%a %b %d %H:%M:%S %Y')
         sec = time.mktime(date_formatted.timetuple())
         tweets.append(['twitter', {'name' : json['user']['name'], 'desc': json['text'], 'screenname': json['user']['screen_name'], 'img': img, 'date': json['created_at']}, int(sec)])
+
+    mystream = tweepy.Stream(auth=api.auth, listener=MyStreamListener())
+
+    print mystream
+
     return tweets
 
 
@@ -100,19 +115,26 @@ def wall(request):
 
     array = sorted(comments, key=itemgetter(2))
     
-    for element in array:
-        print element[0], element[2]
+    user = User.objects.get(id=request.session['user'])
 
-    context = {'posts' : array }
+    context = {
+        'posts' : array,
+        'name' : user.first_name + " " + user.last_name,
+        'accounts' : user.accounts
+    }
 
     return render(request, "login_register/wall.html", context)
 
 def addBubbles(request):
-    return render(request, "login_register/addBubbles.html")
+    user = User.objects.get(id=request.session['user'])
+    context = {
+        'name' : user.first_name + user.last_name,
+        'accounts' : user.accounts
+    }
+    return render(request, "login_register/addBubbles.html", context)
 
 def register(request):
     if request.method == "POST":
-        print "got a post command"
         errors = User.objects.validator(request.POST)
         if len(errors):
             for tag, error in errors.iteritems():
@@ -128,7 +150,6 @@ def register(request):
                 request.session['user'] =  User.objects.get(email=request.POST["email"]).id
                 return redirect("/addBubbles")
     elif request.method == "GET":
-        print "got a get command"
         return render(request, "login_register/registration.html")
 
 
@@ -167,7 +188,6 @@ def link_twitter(request):
 
 
 def verification_twitter(request):
-    print request.session.keys()
     key = Type.objects.get(name='twitter').key
     secret = Type.objects.get(name='twitter').secret
     verifier = request.GET.get('oauth_verifier')
